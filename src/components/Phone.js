@@ -19,4 +19,4 @@ class Phone extends React.PureComponent {
   }
 }
 
-export default connect(s => s.phone)(Phone)
+export default connect(s => s.auth)(Phone)

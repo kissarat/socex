@@ -10,13 +10,17 @@ const api = {
 }
 
 const server = {
-  dev: settings.dev //We will connect to the test server.
-}           //Any empty configurations fields can just not be specified
+  // dev: settings.dev
+  dev: false
+}
 
 const telegram = MTProto({
   server,
   api,
-  app: { storage }
+  app: {
+    debug: true,
+    storage
+  }
 })
 
 export default telegram

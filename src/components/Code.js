@@ -18,4 +18,4 @@ class Code extends React.PureComponent {
   }
 }
 
-export default connect(s => s.phone)(Code)
+export default connect(s => s.auth)(Code)

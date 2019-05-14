@@ -5,6 +5,13 @@ export const SEND_CODE = 'SEND_CODE';
 export const RECEIVED_CODE_HASH = 'RECEIVED_CODE_HASH';
 export const AUTHENTICATE = 'AUTHENTICATE';
 export const AUTHENTICATED = 'AUTHENTICATED';
+export const REQUEST_DIALOGS = 'REQUEST_DIALOGS';
+export const RECEIVED_DIALOGS = 'DIALOGS_RECEIVED';
+export const REQUEST_DIALOGS_ERROR = 'REQUEST_DIALOGS_ERROR';
+
+function save(name, value) {
+  localStorage.setItem(name, JSON.stringify(value))
+}
 
 export async function sendCode(dispatch, phone) {
   dispatch({
@@ -33,15 +40,36 @@ export async function authenticate(dispatch, phone, phone_code_hash, code) {
   });
 
   const response = await telegram('auth.signIn', {
-    phone_number: phone.num,
+    phone_number: phone,
     phone_code_hash,
-    phone_code: code,
-    // first_name: 'Taras',
-    // last_name: 'Labiak'
+    phone_code: code
   })
-
   dispatch({
     type: AUTHENTICATED,
     payload: response
   });
+  save('signIn', response)
+}
+
+export async function fetchDialogs(dispatch) {
+  dispatch({
+    type: REQUEST_DIALOGS
+  });
+
+  try {
+    const response = await telegram('messages.getDialogs', {})
+    save('getDialogs', response)
+
+    dispatch({
+      type: RECEIVED_DIALOGS,
+      payload: response
+    });
+  }
+  catch (err) {
+    console.error(err)
+    dispatch({
+      type: REQUEST_DIALOGS_ERROR,
+      payload: err
+    });
+  }
 }

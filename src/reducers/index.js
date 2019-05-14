@@ -1,7 +1,8 @@
 import {combineReducers} from "redux"
-import {AUTHENTICATED, AUTHENTICATE, RECEIVED_CODE_HASH, SEND_CODE} from '../actions'
+import {AUTHENTICATED, AUTHENTICATE, RECEIVED_CODE_HASH, SEND_CODE,
+  REQUEST_DIALOGS_ERROR, RECEIVED_DIALOGS} from '../actions'
 
-function phone(state = {phone: ''}, action) {
+function auth(state = {phone: ''}, action) {
   switch (action.type) {
     case SEND_CODE:
       return {
@@ -28,8 +29,44 @@ function phone(state = {phone: ''}, action) {
   }
 }
 
-function reducer(state = {}, action) {
-  return state
+const initialState = {
+  messages: [],
+  users: {},
+  dialogs: null,
+  chats: {}
 }
 
-export default combineReducers({reducer, phone})
+function index(items) {
+  const object = {}
+  for(const item of items) {
+    object[item.id] = item
+  }
+  return object
+}
+
+function entities(state = initialState, action) {
+  switch (action.type) {
+    case REQUEST_DIALOGS_ERROR:
+      return {
+        ...state,
+        error: action.payload
+      }
+    case RECEIVED_DIALOGS:
+      return {
+        dialogs: action.payload.dialogs,
+        messages: action.payload.messages,
+        chats: {
+            ...state.chats,
+            ...index(action.payload.chats)
+        },
+        users: {
+            ...state.users,
+            ...index(action.payload.users)
+        }
+      }
+    default:
+      return state
+  }
+}
+
+export default combineReducers({entities, auth})
