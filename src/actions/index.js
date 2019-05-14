@@ -5,9 +5,14 @@ export const SEND_CODE = 'SEND_CODE';
 export const RECEIVED_CODE_HASH = 'RECEIVED_CODE_HASH';
 export const AUTHENTICATE = 'AUTHENTICATE';
 export const AUTHENTICATED = 'AUTHENTICATED';
+
 export const REQUEST_DIALOGS = 'REQUEST_DIALOGS';
-export const RECEIVED_DIALOGS = 'DIALOGS_RECEIVED';
+export const RECEIVED_DIALOGS = 'RECEIVED_DIALOGS';
 export const REQUEST_DIALOGS_ERROR = 'REQUEST_DIALOGS_ERROR';
+
+export const REQUEST_HISTORY = 'REQUEST_HISTORY';
+export const RECEIVED_HISTORY = 'RECEIVED_HISTORY';
+export const REQUEST_HISTORY_ERROR = 'REQUEST_HISTORY_ERROR';
 
 function save(name, value) {
   localStorage.setItem(name, JSON.stringify(value))
@@ -72,5 +77,28 @@ export async function fetchDialogs(dispatch) {
       payload: err
     });
   }
-  // throw new Error('Auth');
+}
+
+export async function fetchHistory(dispatch, peer) {
+  console.log(peer)
+  dispatch({
+    type: REQUEST_HISTORY
+  });
+
+  try {
+    const response = await telegram('messages.getHistory', {peer})
+    save('getHistory', response)
+
+    dispatch({
+      type: RECEIVED_HISTORY,
+      payload: response
+    });
+  }
+  catch (err) {
+    console.error(err)
+    dispatch({
+      type: REQUEST_HISTORY_ERROR,
+      payload: err
+    });
+  }
 }

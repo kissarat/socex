@@ -6,13 +6,22 @@ import settings from '../settings'
 import {fetchDialogs} from '../actions'
 import Inside from "../containers/Inside";
 
+function getDialogs(props) {
+  if (!getDialogs.loaded) {
+    setTimeout(() => fetchDialogs(props.dispatch), 300)
+    getDialogs.loaded = true
+  }
+}
+
+getDialogs.loaded = false
+
 class App extends React.PureComponent {
   state = {
     authenticate: false
   }
 
   componentDidMount() {
-    setTimeout(() => fetchDialogs(this.props.dispatch), 300)
+    getDialogs(this.props)
   }
 
   authentication() {

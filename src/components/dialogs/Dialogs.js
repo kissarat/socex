@@ -21,11 +21,17 @@ class Dialogs extends React.PureComponent {
 function map(props) {
   const {dialogs, chats, users, messages} = props.entities
   return {
-    dialogs: dialogs.map(dialog => ({
-      peer: 'peerUser' === dialog.peer._ ? users[dialog.peer.user_id] : chats[dialog.peer.channel_id],
-      unread_count: dialog.unread_count,
-      message: messages.find(m => m.id === dialog.top_message)
-    }))
+    dialogs: dialogs.filter(dialog => 'peerUser' === dialog.peer._)
+        .map(function (dialog) {
+          const isChannel = 'peerChannel' === dialog.peer._
+          const peer = isChannel ? chats[dialog.peer.channel_id] : users[dialog.peer.user_id]
+          return {
+            peer,
+            isChannel,
+            unread_count: dialog.unread_count,
+            message: messages.find(m => m.id === dialog.top_message)
+          }
+        })
   }
 }
 
