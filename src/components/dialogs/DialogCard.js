@@ -5,7 +5,7 @@ function nameOf(peer) {
   if (peer.title) {
     return peer.title
   }
-  const name = `${peer.first_name} ${peer.last_name}`.trim()
+  const name = `${peer.first_name || ''} ${peer.last_name || ''}`.trim()
   if (name) {
     return name
   }
@@ -14,11 +14,12 @@ function nameOf(peer) {
 
 class Dialogs extends React.PureComponent {
   render() {
-    const {peer} = this.props
+    const {peer, message} = this.props
+    const text = message.message ? message.message.slice(0, 15) : ''
     return (
         <div className="dialog-card">
           <div className="name">{nameOf(peer)}</div>
-          <div className="message">{message.message}</div>
+          <div className="message">{text}</div>
         </div>
     )
   }

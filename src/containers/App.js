@@ -4,11 +4,15 @@ import Phone from '../components/Phone'
 import Code from '../components/Code'
 import settings from '../settings'
 import {fetchDialogs} from '../actions'
-import Dialogs from "../components/dialogs/Dialogs";
+import Inside from "../containers/Inside";
 
 class App extends React.PureComponent {
   state = {
     authenticate: false
+  }
+
+  componentDidMount() {
+    setTimeout(() => fetchDialogs(this.props.dispatch), 300)
   }
 
   authentication() {
@@ -40,7 +44,7 @@ class App extends React.PureComponent {
             {this.authentication()}
             {this.showDialogs()}
           </div>
-          {this.props.hasDialogs ? <Dialogs/> : null}
+          {this.props.hasDialogs ? <Inside/> : null}
           <div className="env">{settings.dev ? 'Development' : 'Production'}</div>
         </div>
     )

@@ -72,4 +72,5 @@ export async function fetchDialogs(dispatch) {
       payload: err
     });
   }
+  // throw new Error('Auth');
 }

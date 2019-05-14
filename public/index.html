@@ -4,10 +4,34 @@
     <meta charset="UTF-8">
     <title>Socex</title>
     <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
         .env {
             position: fixed;
             top: 5px;
             right: 5px;
+        }
+
+        .dialog-card {
+            padding: 4px;
+            cursor: pointer;
+            border-top: 1px solid black;
+        }
+
+        .dialog-card:hover {
+            background-color: gray;
+        }
+
+        .inside {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .inside .chat {
+            flex: 1;
         }
     </style>
 </head>
