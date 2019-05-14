@@ -9,8 +9,10 @@ class Dialogs extends React.PureComponent {
 
   render() {
     return (
-        <div children="dialogs">
-          {this.list()}
+        <div className="dialogs">
+          <div className="list">
+            {this.list()}
+          </div>
         </div>
     )
   }

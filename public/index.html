@@ -4,15 +4,24 @@
     <meta charset="UTF-8">
     <title>Socex</title>
     <style>
-        body {
-            margin: 0;
-            padding: 0;
+        #app {
+           position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
         }
 
         .env {
             position: fixed;
             top: 5px;
             right: 5px;
+        }
+
+        .dialogs {
+            overflow-y: scroll;
         }
 
         .dialog-card {
@@ -30,7 +39,26 @@
             flex-direction: row;
         }
 
+        .inside > * {
+            max-height: calc(100vh - 40px);
+        }
+
         .inside .chat {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .replicas {
+            flex: 1;
+        }
+
+        .editor {
+            display: flex;
+            height: 60px;
+        }
+
+        .editor textarea {
             flex: 1;
         }
     </style>
